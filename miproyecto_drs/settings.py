@@ -11,20 +11,17 @@ from decouple import config, Csv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# SECURITY
+# se lee de .env (local) o del panel de Render (producción)
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = config(
-    'DEBUG',
-    default=False,
-    cast=bool
-)
+# default=False: si falta la variable, queda apagado (lo seguro); cast=bool convierte "True"/"False" en booleano
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS',
-    default='',
-    cast=Csv()
-)
+# dominios permitidos, separados por comas en la variable
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=Csv())
+
+# direcciones completas (con https://) desde las que se aceptan formularios, como el login de /admin
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='', cast=Csv())
 
 
 # Application definition
@@ -147,14 +144,22 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-
-STORAGES = {
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
-
 # Default primary key field type
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STORAGES = {
+    # "default": archivos que suban los usuarios; se deja el sistema normal de Django (obligatorio declararlo)
+    "default": {
+        # FileSystemStorage: guarda en disco, igual que antes de este cambio
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    # cierre de la config de "default"
+    },
+    # "staticfiles": tus CSS/JS/imágenes; whitenoise los comprime y les pone una "huella" en el nombre
+    "staticfiles": {
+        # CompressedManifestStaticFilesStorage: el almacenamiento optimizado que trae whitenoise
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    # cierre de la config de "staticfiles"
+    },
+# cierre del diccionario STORAGES
+}

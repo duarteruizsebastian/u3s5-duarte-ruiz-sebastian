@@ -3,6 +3,7 @@ venv/
 
 # Contraseñas
 .env
+.env.example
 
 # Archivos temporales de Python
 __pycache__/
@@ -10,3 +11,7 @@ __pycache__/
 
 # Base SQLite local
 db.sqlite3
+
+
+# staticfiles/: NUEVO — carpeta que genera collectstatic; Render la crea de nuevo en cada deploy
+staticfiles/
