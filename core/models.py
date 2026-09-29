@@ -3,9 +3,14 @@ from django.contrib.auth.models import User
 
 
 class Servicio(models.Model):
-    propietario = models.ForeignKey(User, on_delete=models.CASCADE)
+    propietario = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
 
-    titulo = models.CharField(max_length=120)
+    titulo = models.CharField(
+        max_length=120
+    )
 
     descripcion = models.TextField()
 
@@ -14,9 +19,13 @@ class Servicio(models.Model):
         decimal_places=2
     )
 
-    categoria = models.CharField(max_length=60)
+    categoria = models.CharField(
+        max_length=60
+    )
 
-    creado_en = models.DateTimeField(auto_now_add=True)
+    creado_en = models.DateTimeField(
+        auto_now_add=True
+    )
 
     def __str__(self):
         return self.titulo
