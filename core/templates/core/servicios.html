@@ -1,55 +1,81 @@
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Servicios</title>
+{% extends 'core/base.html' %}
 
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+{% block titulo %}Lista de servicios{% endblock %}
 
-<body class="max-w-2xl mx-auto py-10 px-6">
+{% block contenido %}
 
-    <h1 class="text-2xl font-bold mb-6">
-        Servicios
-    </h1>
+<h1 class="text-2xl font-bold mb-6">
+    Servicios
+</h1>
 
-    <table class="w-full border border-slate-200 rounded-lg overflow-hidden">
+<a
+    href="{% url 'crear_servicio' %}"
+    class="inline-block mb-4 bg-blue-600 text-white px-4 py-2 rounded-lg"
+>
+    + Nuevo servicio
+</a>
 
-        <thead class="bg-slate-100">
-            <tr>
-                <th class="text-left px-4 py-2">
-                    Servicio
-                </th>
+<div class="overflow-x-auto">
 
-                <th class="text-left px-4 py-2">
-                    Precio
-                </th>
-            </tr>
-        </thead>
+<table class="w-full border border-slate-200 rounded-lg overflow-hidden">
 
-        <tbody>
+    <thead class="bg-slate-100">
+        <tr>
+            <th class="text-left px-4 py-2">Servicio</th>
+            <th class="text-left px-4 py-2">Precio</th>
+            <th class="text-left px-4 py-2">Acciones</th>
+        </tr>
+    </thead>
 
-            {% for servicio in servicios %}
+    <tbody>
 
-            <tr class="border-t border-slate-200">
+        {% for servicio in servicios %}
 
-                <td class="px-4 py-2">
-                    {{ servicio.nombre }}
-                </td>
+        <tr class="border-t border-slate-200">
 
-                <td class="px-4 py-2">
-                    ${{ servicio.precio }}
-                </td>
+            <td class="px-4 py-2">
+                {{ servicio.titulo }}
+            </td>
 
-            </tr>
+            <td class="px-4 py-2">
+                ${{ servicio.precio }}
+            </td>
 
-            {% endfor %}
+            <td class="px-4 py-2 whitespace-nowrap">
 
-        </tbody>
+                <a
+                    href="{% url 'editar_servicio' servicio.pk %}"
+                    class="text-blue-600 underline"
+                >
+                    Editar
+                </a>
 
-    </table>
+                <a
+                    href="{% url 'eliminar_servicio' servicio.pk %}"
+                    class="text-red-600 underline ml-3"
+                >
+                    Eliminar
+                </a>
 
-</body>
+            </td>
 
-</html>
+        </tr>
+
+        {% empty %}
+
+        <tr>
+            <td colspan="3" class="px-4 py-6 text-center text-slate-500">
+                Todavía no hay servicios.
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+{% endblock %}
